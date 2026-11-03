@@ -6,7 +6,7 @@ The platform is planned to include a Python CLI, a FastAPI control API, and a Ne
 
 ## Project status
 
-This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), and typed YAML configuration (MF-006) are in place and verified. MF-007–MF-008 remain planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
+This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), typed YAML configuration (MF-006), and structured logging (MF-007) are implemented. MF-008 remains planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
 
 ## Development plan
 
@@ -45,6 +45,10 @@ mlops config validate examples/mlops.yaml
 ```
 
 The dataset path is resolved relative to the configuration file. This command validates the configuration structure; it does not inspect or train on the dataset contents.
+
+### Logs and errors
+
+CLI commands write structured JSON logs to stderr. Each operation has an ID shown in error messages and included in related logs. Expected errors include a safe explanation; unexpected errors show a short message while logs record only the exception type, not its text or traceback.
 
 ### Set up Python development checks
 

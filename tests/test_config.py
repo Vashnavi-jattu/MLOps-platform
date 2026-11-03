@@ -73,4 +73,23 @@ def test_cli_returns_error_for_invalid_config(tmp_path, capsys):
         main(["config", "validate", str(config_file)])
 
     assert exit_error.value.code == 2
-    assert "training.test_size" in capsys.readouterr().err
+    error_output = capsys.readouterr().err
+    assert "training.test_size" in error_output
+    assert "operation ID" in error_output
+    assert "invalid_configuration" in error_output
+
+
+def test_cli_hides_unexpected_exception_text(monkeypatch, capsys):
+    def fail_to_load_config(_path):
+        raise RuntimeError("token=do-not-show")
+
+    monkeypatch.setattr("mlops_platform.cli.load_config", fail_to_load_config)
+
+    with pytest.raises(SystemExit) as exit_error:
+        main(["config", "validate", "mlops.yaml"])
+
+    error_output = capsys.readouterr().err
+    assert exit_error.value.code == 1
+    assert "RuntimeError" in error_output
+    assert "operation ID" in error_output
+    assert "do-not-show" not in error_output

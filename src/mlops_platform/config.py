@@ -22,6 +22,7 @@ class _ConfigModel(BaseModel):
 
 
 class ProjectSettings(_ConfigModel):
+    # Keep project identifiers safe to use as experiment and registry names.
     name: str = Field(min_length=1, pattern=r"^[A-Za-z0-9_-]+$")
     description: str | None = None
 
@@ -48,6 +49,7 @@ def _default_models() -> list[ModelName]:
 
 class TrainingSettings(_ConfigModel):
     task: Literal["classification"]
+    # A test split must leave data for both training and evaluation.
     test_size: float = Field(default=0.2, gt=0, lt=1)
     random_seed: int = Field(default=42, ge=0)
     models: list[ModelName] = Field(default_factory=_default_models, min_length=1)
@@ -97,6 +99,7 @@ class ProjectConfig(_ConfigModel):
 
 def load_config(path: str | Path = "mlops.yaml") -> ProjectConfig:
     """Load YAML, apply documented defaults, and return validated settings."""
+    # Resolve the config path once so relative dataset paths use a stable base.
     config_path = Path(path).expanduser().resolve()
     try:
         raw_text = config_path.read_text(encoding="utf-8")
@@ -118,6 +121,7 @@ def load_config(path: str | Path = "mlops.yaml") -> ProjectConfig:
             f"Configuration file '{config_path}' must contain a YAML mapping."
         )
 
+    # Normalize paths before validation, while leaving dataset existence to training.
     values = _resolve_dataset_path(values, config_path.parent)
     try:
         return ProjectConfig.model_validate(values)
