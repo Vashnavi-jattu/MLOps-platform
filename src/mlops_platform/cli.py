@@ -8,7 +8,8 @@ import argparse
 from collections.abc import Sequence
 from pathlib import Path
 
-from mlops_platform.config import ConfigurationError, load_config
+from mlops_platform.config import load_config
+from mlops_platform.errors import ConfigurationError
 
 
 def main(argv: Sequence[str] | None = None) -> int:

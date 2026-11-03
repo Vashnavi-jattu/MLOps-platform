@@ -13,9 +13,7 @@ from pydantic import (
     model_validator,
 )
 
-
-class ConfigurationError(ValueError):
-    """A readable error raised when a project configuration cannot be loaded."""
+from mlops_platform.errors import ConfigurationError
 
 
 class _ConfigModel(BaseModel):
