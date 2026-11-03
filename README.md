@@ -1,12 +1,12 @@
-# ModelForge
+# MLOPs
 
-ModelForge is a self-service MLOps platform for managing a machine-learning model through training, experiment tracking, evaluation, versioning, deployment, and monitoring. The goal is to build a working, production-style project that demonstrates software engineering, machine-learning engineering, MLOps, and cloud infrastructure.
+MLOPs is a self-service platform for managing a machine-learning model through training, experiment tracking, evaluation, versioning, deployment, and monitoring. The goal is to build a working, production-style project that demonstrates software engineering, machine-learning engineering, MLOps, and cloud infrastructure.
 
 The platform is planned to include a Python CLI, a FastAPI control API, and a Next.js dashboard. The first releases focus on a reliable local Python workflow; Kubernetes, advanced release strategies, and Azure deployment come later.
 
 ## Project status
 
-This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The implementation backlog contains 80 planned user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
+This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The initial Python package scaffold for MF-004 is in place, with an import smoke test. MF-005–MF-008 remain planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
 
 ## Development plan
 
@@ -20,7 +20,7 @@ Establish a maintainable Python package with validated configuration, consistent
 
 | Issue | User story | Acceptance criteria |
 | --- | --- | --- |
-| MF-004 | As a developer, I want a maintainable repository so code remains organized. | Create `src/modelforge`, `tests`, `pyproject.toml`, package entry points, and a successful import check. |
+| MF-004 | As a developer, I want a maintainable repository so code remains organized. | Create `src/mlops_platform`, `tests`, `pyproject.toml`, package entry points, and a successful import check. |
 | MF-005 | As a developer, I want automated quality checks so mistakes are caught early. | Ruff, mypy, pytest, and pre-commit run successfully; add sample tests. |
 | MF-006 | As a developer, I want typed YAML configuration so projects can be configured safely. | Pydantic validates required fields, defaults, ranges, and invalid input with actionable errors. |
 | MF-007 | As a developer, I want structured logs and understandable errors so failures are easy to debug. | Logs include timestamps, levels, and operation IDs; exceptions provide safe, clear details. |
@@ -38,7 +38,7 @@ These are planned choices for this phase; they are not all implemented yet.
 
 ## Longer-term direction
 
-After the foundation, the backlog moves on to a reproducible scikit-learn training pipeline, experiment tracking with MLflow, model registration, inference serving, a FastAPI backend, and a web dashboard. Later releases add container orchestration, monitoring, canary releases, rollback, and Azure infrastructure. See [`modelforge_issues.csv`](modelforge_issues.csv) for the detailed story list and [`docs/product-specification.md`](docs/product-specification.md) for product scope and release boundaries.
+After the foundation, the backlog moves on to a reproducible scikit-learn training pipeline, experiment tracking with MLflow, model registration, inference serving, a FastAPI backend, and a web dashboard. Later releases add container orchestration, monitoring, canary releases, rollback, and Azure infrastructure. See [`docs/product-specification.md`](docs/product-specification.md) for product scope and release boundaries, [`docs/architecture.md`](docs/architecture.md) for the system design, [`docs/api-contract.md`](docs/api-contract.md) for planned interfaces, and [`docs/design-decisions.md`](docs/design-decisions.md) for recorded decisions.
 
 ## Working agreement
 

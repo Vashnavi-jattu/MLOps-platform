@@ -1,8 +1,8 @@
-# ModelForge Product Specification
+# MLOPs Product Specification
 
 ## Purpose
 
-ModelForge is a self-service MLOps platform for taking a conventional machine-learning model from a reproducible training run to a managed deployment. It brings training, experiment tracking, evaluation, model versioning, serving, and operational visibility into one workflow exposed through a CLI and, in later releases, a web dashboard.
+MLOPs is a self-service MLOps platform for taking a conventional machine-learning model from a reproducible training run to a managed deployment. It brings training, experiment tracking, evaluation, model versioning, serving, and operational visibility into one workflow exposed through a CLI and, in later releases, a web dashboard.
 
 The project demonstrates practical software engineering, machine-learning engineering, MLOps, and cloud infrastructure through a working system. Each advertised capability must be implemented and verifiable; planned capabilities are not presented as complete.
 

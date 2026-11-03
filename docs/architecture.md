@@ -1,4 +1,4 @@
-# ModelForge Architecture
+# MLOPs Architecture
 
 ## Status and scope
 
@@ -72,7 +72,7 @@ The diagram shows the target logical shape. At v0.1, the CLI calls the shared Py
 | Shared Python core | Owns configuration, project operations, training/evaluation orchestration, experiment/model operations, and deployment coordination. Reused by CLI and API. | v0.1 onward |
 | Training pipeline | Validates data, fits preprocessing only on training data, trains supported classifiers, evaluates on held-out data, and produces a serialized preprocessing/model pipeline. | v0.1 |
 | MLflow | Records runs, parameters, metrics, artifacts, and registered model versions. | v0.1 |
-| PostgreSQL | Stores MLflow metadata locally; later can also store ModelForge API entities through SQLAlchemy and Alembic. Keep the ownership of MLflow tables and ModelForge tables distinct. | v0.1 / later |
+| PostgreSQL | Stores MLflow metadata locally; later can also store MLOPs API entities through SQLAlchemy and Alembic. Keep the ownership of MLflow tables and MLOPs tables distinct. | v0.1 / later |
 | Artifact storage | Holds model and run artifacts. Use MinIO for local object storage when configured; use Azure Blob Storage for the cloud release. | v0.1 / later |
 | Inference API | Loads a selected registered pipeline, validates prediction requests, returns predictions, and exposes health information. Runs separately from the control API. | v0.1 |
 | Docker / Docker Compose | Packages inference and starts the local services needed for reproducible development. | v0.1 |
@@ -115,7 +115,7 @@ The diagram shows the target logical shape. At v0.1, the CLI calls the shared Py
 - **Core service interfaces:** typed Python inputs and results for project configuration, training runs, model versions, deployment requests, and prediction metadata. The CLI and API should call these interfaces rather than MLflow directly for lifecycle operations.
 - **Control API:** REST/JSON with Pydantic request/response schemas and generated OpenAPI documentation. Define exact routes and error shapes in MF-003/API contract work.
 - **Inference API:** JSON request/response schema tied to the selected model's expected feature names and types; invalid payloads return actionable client errors.
-- **Persistence:** Alembic migrations version ModelForge-owned relational schema when it is introduced. MLflow owns its tracking/registry schema.
+- **Persistence:** Alembic migrations version MLOPs-owned relational schema when it is introduced. MLflow owns its tracking/registry schema.
 
 ## Initial deployment topology
 
