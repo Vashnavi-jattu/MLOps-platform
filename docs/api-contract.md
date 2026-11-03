@@ -2,7 +2,7 @@
 
 ## Status
 
-This is the initial contract draft for MF-003, based on the [product specification](product-specification.md) and [architecture](architecture.md). These interfaces are planned; they are not implemented endpoints or guarantees of current behavior. Refine them with a design decision before changing a contract after implementation begins.
+This is the initial contract draft for MF-003, based on the [product specification](product-specification.md) and [architecture](architecture.md). The `mlops.yaml` schema and `mlops config validate` command are implemented in MF-006. REST endpoints and other future interfaces remain planned, not guarantees of current behavior. Refine contracts with a design decision before changing them after implementation begins.
 
 ## Naming
 
@@ -77,7 +77,7 @@ registry:
 | `training.random_seed` | integer | Default `42` | Passed to stochastic splitting/models for reproducibility. |
 | `training.models` | list of model identifiers | Default baseline pair | Non-empty; identifiers must be supported by the installed version. |
 | `tracking.experiment_name` | string | Defaults to `project.name` | Non-empty MLflow experiment name. |
-| `tracking.tracking_uri` | URI string | Defaults to local MLflow configuration | Valid local or configured tracking URI; credentials are supplied separately. |
+| `tracking.tracking_uri` | string | Defaults to `http://localhost:5000` | Non-empty tracking location; credentials are supplied separately. |
 | `registry.model_name` | string | Defaults to `project.name` | Non-empty registered model name. |
 
 Exact model hyperparameter schemas, categorical/numeric column overrides, and remote credential configuration are deferred until a supported use case requires them.

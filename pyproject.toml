@@ -8,10 +8,10 @@ version = "0.1.0"
 description = "A self-service platform for the machine-learning lifecycle."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = ["pydantic>=2", "PyYAML>=6"]
 
 [project.optional-dependencies]
-dev = ["mypy", "pre-commit", "pytest", "ruff"]
+dev = ["mypy", "pre-commit", "pytest", "ruff", "types-PyYAML"]
 
 [project.scripts]
 mlops = "mlops_platform.cli:main"
