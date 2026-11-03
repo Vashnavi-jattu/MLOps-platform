@@ -6,7 +6,7 @@ The platform is planned to include a Python CLI, a FastAPI control API, and a Ne
 
 ## Project status
 
-This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The initial Python package scaffold for MF-004 is in place, with an import smoke test. MF-005–MF-008 remain planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
+This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004) and local quality checks (MF-005) are in place and verified. MF-006–MF-008 remain planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
 
 ## Development plan
 
@@ -35,6 +35,27 @@ Establish a maintainable Python package with validated configuration, consistent
 - Makefile commands and GitHub Actions checks
 
 These are planned choices for this phase; they are not all implemented yet.
+
+### Set up Python development checks
+
+Create and activate a virtual environment, then install the project and its development tools:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+pre-commit install
+```
+
+Run the checks directly:
+
+```bash
+ruff check .
+ruff format --check .
+mypy src
+pytest
+pre-commit run --all-files
+```
 
 ## Longer-term direction
 
