@@ -6,7 +6,7 @@ The platform is planned to include a Python CLI, a FastAPI control API, and a Ne
 
 ## Project status
 
-This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), typed YAML configuration (MF-006), and structured logging (MF-007) are implemented. MF-008 remains planned. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
+This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), typed YAML configuration (MF-006), and structured logging (MF-007) are implemented. MF-008 adds Makefile shortcuts and a GitHub Actions workflow; the remote workflow still needs its first run on GitHub. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
 
 ## Development plan
 
@@ -57,19 +57,21 @@ Create and activate a virtual environment, then install the project and its deve
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[dev]"
+make install
 pre-commit install
 ```
 
-Run the checks directly:
+Run individual checks or the full local check set:
 
 ```bash
-ruff check .
-ruff format --check .
-mypy src
-pytest
-pre-commit run --all-files
+make lint
+make format-check
+make typecheck
+make test
+make check
 ```
+
+GitHub Actions runs `make install` and `make check` for pushes and pull requests on Python 3.11, 3.12, and 3.13.
 
 ## Longer-term direction
 
