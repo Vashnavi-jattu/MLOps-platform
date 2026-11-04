@@ -13,3 +13,10 @@ class ConfigurationError(MLOPsError):
 
     # This code is included in structured logs for configuration failures.
     code = "invalid_configuration"
+
+
+class DatasetValidationError(MLOPsError):
+    """A readable error raised when a training dataset violates its schema."""
+
+    # A stable code lets the CLI and future API report this error consistently.
+    code = "invalid_dataset"
