@@ -4,7 +4,7 @@ PYTHON ?= python
 .PHONY: install lint format-check typecheck test check
 
 install:
-	$(PYTHON) -m pip install -e "[dev]"
+	$(PYTHON) -m pip install -e ".[dev]"
 
 lint:
 	$(PYTHON) -m ruff check .
