@@ -1,12 +1,12 @@
 schema_version: 1
 
 project:
-  name: customer-churn
-  description: Example binary classification project
+  name: iranian-churn
+  description: Churn classification using the UCI Iranian Churn dataset
 
 dataset:
-  path: data/churn.csv
-  target: churn
+  path: data/iranian_churn.csv
+  target: Churn
 
 training:
   task: classification
@@ -17,8 +17,8 @@ training:
     - random_forest
 
 tracking:
-  experiment_name: customer-churn
+  experiment_name: iranian-churn
   tracking_uri: http://localhost:5000
 
 registry:
-  model_name: customer-churn-classifier
+  model_name: iranian-churn-classifier

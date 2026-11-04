@@ -40,12 +40,12 @@ The YAML file is named `mlops.yaml`. Pydantic validates it at load time, rejects
 schema_version: 1
 
 project:
-  name: customer-churn
+  name: iranian-churn
   description: Example binary classification project
 
 dataset:
-  path: data/churn.csv
-  target: churn
+  path: data/iranian_churn.csv
+  target: Churn
 
 training:
   task: classification
@@ -56,11 +56,11 @@ training:
     - random_forest
 
 tracking:
-  experiment_name: customer-churn
+  experiment_name: iranian-churn
   tracking_uri: http://localhost:5000
 
 registry:
-  model_name: customer-churn-classifier
+  model_name: iranian-churn-classifier
 ```
 
 ### Configuration fields
@@ -131,11 +131,11 @@ Create a project with the validated configuration:
 {
   "config": {
     "schema_version": 1,
-    "project": { "name": "customer-churn" },
-    "dataset": { "path": "data/churn.csv", "target": "churn" },
+    "project": { "name": "iranian-churn" },
+    "dataset": { "path": "data/iranian_churn.csv", "target": "Churn" },
     "training": { "task": "classification", "test_size": 0.2, "random_seed": 42 },
-    "tracking": { "experiment_name": "customer-churn" },
-    "registry": { "model_name": "customer-churn-classifier" }
+    "tracking": { "experiment_name": "iranian-churn" },
+    "registry": { "model_name": "iranian-churn-classifier" }
   }
 }
 ```
@@ -143,7 +143,7 @@ Create a project with the validated configuration:
 Start a run and receive its lifecycle status:
 
 ```json
-// POST /api/v1/projects/customer-churn/runs
+// POST /api/v1/projects/iranian-churn/runs
 { "models": ["logistic_regression", "random_forest"] }
 ```
 
@@ -151,7 +151,7 @@ Start a run and receive its lifecycle status:
 // Synchronous response: 201 Created
 {
   "run_id": "opaque-run-id",
-  "project_name": "customer-churn",
+  "project_name": "iranian-churn",
   "status": "finished",
   "metrics": { "precision": 0.0, "recall": 0.0, "f1": 0.0, "roc_auc": 0.0 },
   "artifact_uris": []
@@ -162,13 +162,13 @@ Register a successful run:
 
 ```json
 // POST /api/v1/models
-{ "run_id": "opaque-run-id", "name": "customer-churn-classifier" }
+{ "run_id": "opaque-run-id", "name": "iranian-churn-classifier" }
 ```
 
 ```json
 // 201 Created
 {
-  "name": "customer-churn-classifier",
+  "name": "iranian-churn-classifier",
   "version": "1",
   "source_run_id": "opaque-run-id",
   "artifact_uri": "mlflow-artifact-reference"
@@ -179,7 +179,7 @@ Deploy that immutable version and request predictions:
 
 ```json
 // POST /api/v1/deployments
-{ "model_name": "customer-churn-classifier", "model_version": "1" }
+{ "model_name": "iranian-churn-classifier", "model_version": "1" }
 ```
 
 ```json
@@ -194,7 +194,7 @@ Deploy that immutable version and request predictions:
 ```json
 {
   "predictions": [{ "label": 1, "probability": 0.73 }],
-  "model_name": "customer-churn-classifier",
+  "model_name": "iranian-churn-classifier",
   "model_version": "1",
   "request_id": "opaque-request-id"
 }

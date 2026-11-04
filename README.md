@@ -6,11 +6,11 @@ The platform is planned to include a Python CLI, a FastAPI control API, and a Ne
 
 ## Project status
 
-This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), typed YAML configuration (MF-006), and structured logging (MF-007) are implemented. MF-008 adds Makefile shortcuts and a GitHub Actions workflow; the remote workflow still needs its first run on GitHub. The implementation backlog contains 80 user stories, MF-001 through MF-080. A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
+This repository is at the planning and foundation stage. The product specification is drafted in [`docs/product-specification.md`](docs/product-specification.md). The Python package scaffold (MF-004), local quality checks (MF-005), typed YAML configuration (MF-006), and structured logging (MF-007) are implemented. MF-008 adds Makefile shortcuts and a GitHub Actions workflow; the remote workflow still needs its first run on GitHub. The implementation backlog contains 80 user stories, MF-001 through MF-080. The initial dataset is described in [`docs/dataset.md`](docs/dataset.md). A feature is considered implemented only after it works and has been verified; roadmap entries are not claims of existing functionality.
 
 ## Development plan
 
-Work through one user story at a time, in dependency order. The current target is **Backlog Phase 1: Software engineering foundation (MF-004–MF-008)**. The planning stories MF-001–MF-003 come first because the foundation work depends on their decisions.
+Work through one user story at a time, in dependency order. **MF-009 selects and documents the initial dataset**; the earlier stories establish the product plan, architecture, package foundation, configuration, logging, and local quality workflow. The dataset notes are in [`docs/dataset.md`](docs/dataset.md).
 
 ### Phase 1 goal
 

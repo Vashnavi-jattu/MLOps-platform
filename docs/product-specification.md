@@ -101,7 +101,7 @@ Release boundaries are directional. A capability remains planned until it is imp
 
 ## Assumptions to revisit
 
-- The initial dataset is a legally usable customer churn dataset with a documented source and license.
+- The initial dataset is the UCI Iranian Churn dataset; its source, CC BY 4.0 license, target, fields, split policy, and limitations are documented in [`dataset.md`](dataset.md).
 - Local development can use Docker Compose for PostgreSQL, MinIO, and MLflow services.
 - The first model family is scikit-learn classification; XGBoost is optional and should be added only if it improves a demonstrated use case.
 - Azure is the target cloud for the eventual hosted release.
