@@ -2,7 +2,7 @@
 
 ## Status
 
-This is the initial contract draft for MF-003, based on the [product specification](product-specification.md) and [architecture](architecture.md). The `mlops.yaml` schema and `mlops config validate` command are implemented in MF-006. REST endpoints and other future interfaces remain planned, not guarantees of current behavior. Refine contracts with a design decision before changing them after implementation begins.
+This is the initial contract draft for MF-003, based on the [product specification](product-specification.md) and [architecture](architecture.md). The `mlops.yaml` schema and `mlops config validate` command are implemented in MF-006. The `mlops data validate` command checks the selected Iranian Churn CSV schema for MF-010. REST endpoints and other future interfaces remain planned, not guarantees of current behavior. Refine contracts with a design decision before changing them after implementation begins.
 
 ## Naming
 
@@ -20,6 +20,7 @@ The CLI is the first user-facing interface. Commands should call shared core ser
 | --- | --- | --- | --- |
 | `mlops init [PATH]` | Create a starter project configuration. | `--name`, `--force` | Writes `mlops.yaml`; refuses to overwrite unless `--force` is provided. |
 | `mlops config validate [PATH]` | Validate YAML against the configuration schema. | Config path; defaults to `mlops.yaml` in the current directory. | Reports valid configuration or field-specific validation errors. |
+| `mlops data validate [PATH]` | Validate the configured Iranian Churn CSV against required columns, types, missing-value, range, and target rules. | Config path; defaults to `mlops.yaml` in the current directory. | Reports row/column count and target, or a safe actionable validation error. |
 | `mlops train` | Validate data, train configured candidates, evaluate, and log a run. | `--config PATH`, `--seed INT` (optional override) | Returns run ID, status, metrics, and artifact location. |
 | `mlops runs list` | List tracked runs for the configured project/experiment. | `--config PATH`, `--limit INT`, `--output` | Returns run IDs, status, start time, model name, and key metrics. |
 | `mlops runs show RUN_ID` | Inspect a tracked run. | Run ID, `--config PATH` | Returns parameters, metrics, lineage, and artifact references. |

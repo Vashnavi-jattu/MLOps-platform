@@ -10,7 +10,7 @@ This repository is at the planning and foundation stage. The product specificati
 
 ## Development plan
 
-Work through one user story at a time, in dependency order. **MF-009 selects and documents the initial dataset**; the earlier stories establish the product plan, architecture, package foundation, configuration, logging, and local quality workflow. The dataset notes are in [`docs/dataset.md`](docs/dataset.md).
+Work through one user story at a time, in dependency order. **MF-009 documents the initial dataset, and MF-010 adds checks for that dataset before training.** The earlier stories establish the product plan, architecture, package foundation, configuration, logging, and local quality workflow. Dataset details are in [`docs/dataset.md`](docs/dataset.md).
 
 ### Phase 1 goal
 
@@ -45,6 +45,16 @@ mlops config validate examples/mlops.yaml
 ```
 
 The dataset path is resolved relative to the configuration file. This command validates the configuration structure; it does not inspect or train on the dataset contents.
+
+After placing the CSV at the configured path, check its data with:
+
+```bash
+mlops data validate examples/mlops.yaml
+```
+
+This checks the selected Iranian Churn schema. It does not train a model or
+make every dataset type compatible; support for additional dataset schemas can
+be added in later stories.
 
 ### Logs and errors
 

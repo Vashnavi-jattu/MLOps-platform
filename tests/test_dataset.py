@@ -7,7 +7,11 @@ import pytest
 from mlops_platform.dataset import IRANIAN_CHURN_SCHEMA, validate_iranian_churn_csv
 from mlops_platform.errors import DatasetValidationError
 
+# Derive headers from the real schema so test rows stay aligned if a field is
+# added, removed, or reordered in the validator.
 HEADERS = [rule.name for rule in IRANIAN_CHURN_SCHEMA]
+# One fully valid record is the baseline; negative tests change only one value
+# at a time so each failure points to the rule under test.
 VALID_ROW = [
     "1",
     "0",
@@ -27,7 +31,11 @@ VALID_ROW = [
 
 
 def write_dataset(path, headers=HEADERS, row=VALID_ROW):
-    """Write a small CSV fixture that tests can modify for invalid cases."""
+    """Write a small CSV fixture that tests can modify for invalid cases.
+
+    Passing ``row=None`` writes only the header, which lets tests represent an
+    empty dataset without maintaining separate CSV-writing code.
+    """
     with path.open("w", encoding="utf-8", newline="") as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(headers)
@@ -37,6 +45,7 @@ def write_dataset(path, headers=HEADERS, row=VALID_ROW):
 
 
 def test_valid_dataset_returns_a_summary(tmp_path):
+    """Accept a correctly shaped row and report its basic dimensions."""
     dataset_path = write_dataset(tmp_path / "valid.csv")
 
     result = validate_iranian_churn_csv(dataset_path)
@@ -47,6 +56,7 @@ def test_valid_dataset_returns_a_summary(tmp_path):
 
 
 def test_rejects_missing_required_column(tmp_path):
+    """Reject files that cannot provide all inputs and the prediction target."""
     headers = [name for name in HEADERS if name != "Churn"]
     row = VALID_ROW[:-1]
     dataset_path = write_dataset(tmp_path / "missing-target.csv", headers, row)
@@ -67,6 +77,7 @@ def test_rejects_missing_required_column(tmp_path):
     ],
 )
 def test_rejects_invalid_values(tmp_path, column, replacement, message):
+    """Exercise type, category, range, missing-value, and target checks."""
     row = VALID_ROW.copy()
     row[HEADERS.index(column)] = replacement
     dataset_path = write_dataset(tmp_path / "invalid.csv", row=row)
@@ -76,6 +87,7 @@ def test_rejects_invalid_values(tmp_path, column, replacement, message):
 
 
 def test_rejects_dataset_with_no_rows(tmp_path):
+    """Require at least one example row after the CSV header."""
     dataset_path = write_dataset(tmp_path / "empty.csv", row=None)
 
     with pytest.raises(DatasetValidationError, match="at least one data row"):
@@ -83,5 +95,6 @@ def test_rejects_dataset_with_no_rows(tmp_path):
 
 
 def test_rejects_nonexistent_dataset(tmp_path):
+    """Give a clear validation error when the configured file is absent."""
     with pytest.raises(DatasetValidationError, match="does not exist"):
         validate_iranian_churn_csv(tmp_path / "missing.csv")

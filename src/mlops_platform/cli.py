@@ -10,6 +10,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from mlops_platform.config import load_config
+from mlops_platform.dataset import validate_iranian_churn_csv
 from mlops_platform.errors import MLOPsError
 from mlops_platform.logging_config import configure_logging, operation_context
 
@@ -40,6 +41,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     validate_parser.add_argument(
         "path", nargs="?", type=Path, default=Path("mlops.yaml")
     )
+    data_parser = commands.add_parser(
+        "data", help="Check a training dataset against its schema."
+    )
+    data_commands = data_parser.add_subparsers(dest="data_command", required=True)
+    data_validate_parser = data_commands.add_parser(
+        "validate", help="Validate the dataset referenced by an mlops.yaml file."
+    )
+    data_validate_parser.add_argument(
+        "path", nargs="?", type=Path, default=Path("mlops.yaml")
+    )
     args = parser.parse_args(argv)
 
     if args.command is None:
@@ -57,7 +68,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 logger.warning("CLI operation failed", extra={"error_code": exc.code})
                 parser.exit(2, f"error: {exc} (operation ID: {operation_id})\n")
             except Exception:
-                # Unknown failures may contain secrets, so show details only in code/log type.
+                # Unknown failures may contain secrets, so show details only in
+                # the code and log type.
                 # The formatter records the exception type without its sensitive text.
                 logger.exception("Unexpected CLI failure")
                 parser.exit(
@@ -71,6 +83,33 @@ def main(argv: Sequence[str] | None = None) -> int:
             # Keep normal command results on stdout; structured logs use stderr.
             print(f"Configuration is valid: {args.path}")
             print(f"Project: {config.project.name}")
+    elif args.command == "data" and args.data_command == "validate":
+        # The config supplies both the dataset location and its target column;
+        # loading it also resolves relative paths from the config's directory.
+        configure_logging()
+        with operation_context() as operation_id:
+            try:
+                config = load_config(args.path)
+                result = validate_iranian_churn_csv(
+                    config.dataset.path,
+                    target_column=config.dataset.target,
+                )
+            except MLOPsError as exc:
+                logger.warning("CLI operation failed", extra={"error_code": exc.code})
+                parser.exit(2, f"error: {exc} (operation ID: {operation_id})\n")
+            except Exception:
+                logger.exception("Unexpected CLI failure")
+                parser.exit(
+                    1,
+                    f"Unexpected error. Check logs with operation ID {operation_id}.\n",
+                )
+            logger.info(
+                "Dataset validated",
+                extra={"row_count": result.row_count, "target": result.target_column},
+            )
+            print(f"Dataset is valid: {result.path}")
+            print(f"Rows: {result.row_count}; columns: {result.column_count}")
+            print(f"Target: {result.target_column}")
     return 0
 
 
